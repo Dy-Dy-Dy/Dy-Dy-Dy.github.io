@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2023/10/17/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
+    <title>CF 1878D Reverse Madness</title>
+    <url>/2023/10/19/cf-1878d-reverse-madness/</url>
+    <content><![CDATA[<p>From Codeforces Round 900 (Div. 3)</p>
+<p>做法来源于 jiangly</p>
+<p>题目关键在于如何处理字符串区间反转</p>
+<p>了解到有特殊的数据结构（文艺平衡树）可以解决此类问题，但此题显然不需要用到如此繁琐的代码。</p>
+<span id="more"></span> 
+<p>发现题目中反转的区间为$ [ min(x, l[i]+r[i] -x), \max(x, l[i]+r[i] -x)]$，且$l[i] \le x \le r[i]$，所以区间最大为$[l[i], r[i]]$，对此，对于每一个i，我们可以枚举可能的x，利用异或的性质进行反转。</p>
+<p>因为$0 \oplus 1=1$，一开始我们设所有位置都为0，让x出现的位置为1，再设一个变量存异或和，就可以表示当前位置是否要反转。</p>
+<p>可以利用<strong>异或的性质</strong>处理<strong>反转区间已固定</strong>的问题。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n, k;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; k;</span><br><span class="line">	string s;</span><br><span class="line">	cin &gt;&gt; s;</span><br><span class="line">	<span class="function">vector <span class="title">l</span><span class="params">(k, <span class="number">0</span>)</span>, <span class="title">r</span><span class="params">(k, <span class="number">0</span>)</span></span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; l[i];</span><br><span class="line">		l[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; r[i];</span><br><span class="line">		r[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> q;</span><br><span class="line">	cin &gt;&gt; q;</span><br><span class="line">	<span class="function">vector <span class="title">f</span><span class="params">(n, <span class="number">0</span>)</span></span>;</span><br><span class="line">	<span class="keyword">while</span> (q--) &#123;</span><br><span class="line">		<span class="type">int</span> x; </span><br><span class="line">		cin &gt;&gt; x;</span><br><span class="line">		x--;</span><br><span class="line">		f[x] ^= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = l[i]; j &lt;= l[i] + r[i] - j; ++j) &#123;</span><br><span class="line">			now ^= f[j] ^ f[l[i] + r[i] - j];</span><br><span class="line">			<span class="keyword">if</span> (now) &#123;</span><br><span class="line">				<span class="built_in">swap</span>(s[j], s[l[i] + r[i] - j]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; s &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin.<span class="built_in">tie</span>(<span class="number">0</span>) -&gt; <span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> _; cin &gt;&gt; _;</span><br><span class="line">	<span class="keyword">while</span> (_--) <span class="built_in">solve</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>default</category>
+        <category>题解</category>
       </categories>
       <tags>
-        <tag>beta</tag>
+        <tag>字符串</tag>
       </tags>
   </entry>
 </search>
