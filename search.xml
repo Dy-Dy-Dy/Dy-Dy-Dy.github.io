@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Codeforces Round 843 (Div. 2) C. Interesting Sequence</title>
-    <url>/2023/10/25/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/</url>
-    <content><![CDATA[<p>一道关于位运算的思维题。</p>
-<p>题意是已知n, x</p>
-<p>求一个m</p>
-<p>使$x  \And  (x+1)  \And   (x+2)  \And …  \And m = x$</p>
-<p>如果不存在m，输出-1</p>
-<p>如果存在，则输出最小的m</p>
-<span id="more"></span> 
-<p>当时做的时候有一点思路，但并不完整，之后也被证明是不正确的，在此不提。</p>
-<p>看了好久jingly的代码，终于有点懂了。</p>
-<p>我们按位处理，设f[i]为把n的第i位变为0需要的最小值。</p>
-<p>如果第i位本身就是0，则$f[i] = n$</p>
-<p>如果第i位是1，那么$ f[i] = (n  \And \sim((1 \ll i) - 1)) + (1 \ll i)$</p>
-<p>然后按位处理x，如果第i位是0，那么$ans =\max (ans, f[i])$</p>
-<p>再按位检查一遍x，如果x的第i位是1，但$ans \ge f[i]$，也就是说与到ans时，这一位已经是0了，那么就是无解。</p>
-<p>jiangly的代码直接生按位枚举的，我偷了一下懒，用了bitset</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> endl <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line">ll n, m;</span><br><span class="line">ll f[<span class="number">70</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	bitset &lt;61&gt; <span class="built_in">a</span>(n);</span><br><span class="line">	bitset &lt;61&gt; <span class="built_in">b</span>(m);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">60</span>; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (a[i] == <span class="number">0</span>)</span><br><span class="line">			f[i] = n;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			f[i] = (n &amp; ~((<span class="number">1ll</span> &lt;&lt; i) - <span class="number">1</span>)) + (<span class="number">1ll</span> &lt;&lt; i);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">60</span>; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (b[i] == <span class="number">0</span>)</span><br><span class="line">			m = <span class="built_in">max</span>(m, f[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">60</span>; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (b[i] == <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (m &gt;= f[i]) &#123;</span><br><span class="line">				cout &lt;&lt; <span class="number">-1</span> &lt;&lt; endl;</span><br><span class="line">				<span class="keyword">return</span> ;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; m &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ios::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">	cin.<span class="built_in">tie</span>(<span class="number">0</span>); cout.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> T; cin &gt;&gt; T;</span><br><span class="line">	<span class="keyword">while</span> (T--) &#123;</span><br><span class="line">		<span class="built_in">solve</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>思维</tag>
-        <tag>位运算</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CF 1878D Reverse Madness</title>
     <url>/2023/10/19/cf-1878d-reverse-madness/</url>
     <content><![CDATA[<p>From Codeforces Round 900 (Div. 3)</p>
