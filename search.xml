@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>Codeforces Round 843 (Div. 2) C. Interesting Sequence</title>
-    <url>/1970/01/01/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/</url>
+    <url>/2023/10/25/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/</url>
     <content><![CDATA[<p>一道关于位运算的思维题。</p>
 <p>题意是已知n, x</p>
 <p>求一个m</p>
@@ -29,7 +29,7 @@
   </entry>
   <entry>
     <title>CF 1878D Reverse Madness</title>
-    <url>/1970/01/01/cf-1878d-reverse-madness/</url>
+    <url>/2023/10/25/cf-1878d-reverse-madness/</url>
     <content><![CDATA[<p>From Codeforces Round 900 (Div. 3)</p>
 <p>做法来源于 jiangly</p>
 <p>题目关键在于如何处理字符串区间反转</p>
