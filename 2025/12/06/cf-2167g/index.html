@@ -21,29 +21,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"dy-dy-dy.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="一道关于位运算的思维题。 题意是已知n, x 求一个m 使$x  \And  (x+1)  \And   (x+2)  \And …  \And m &#x3D; x$ 如果不存在m，输出-1 如果存在，则输出最小的m">
+    <meta name="description" content="有n个正整数a，可以选择其中的一些数把他们修改为任意整数。修改每个数的代价c不同。 问让这些数不下降的最小修改代价。 $1 \le n \le 8000,  1 \le a_i,c_i \le 10^9$.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Codeforces Round 843 (Div. 2) C. Interesting Sequence">
-<meta property="og:url" content="https://dy-dy-dy.github.io/2023/10/25/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/index.html">
+<meta property="og:title" content="Codeforces 2167 G Mukhammadali and the Smooth Array">
+<meta property="og:url" content="https://dy-dy-dy.github.io/2025/12/06/cf-2167g/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="一道关于位运算的思维题。 题意是已知n, x 求一个m 使$x  \And  (x+1)  \And   (x+2)  \And …  \And m &#x3D; x$ 如果不存在m，输出-1 如果存在，则输出最小的m">
+<meta property="og:description" content="有n个正整数a，可以选择其中的一些数把他们修改为任意整数。修改每个数的代价c不同。 问让这些数不下降的最小修改代价。 $1 \le n \le 8000,  1 \le a_i,c_i \le 10^9$.">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-10-01T12:40:42.710Z">
+<meta property="article:published_time" content="2025-12-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-12-06T12:18:23.674Z">
 <meta property="article:author" content="Sunlight">
-<meta property="article:tag" content="思维">
-<meta property="article:tag" content="位运算">
+<meta property="article:tag" content="DP">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://dy-dy-dy.github.io/2023/10/25/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/">
+<link rel="canonical" href="https://dy-dy-dy.github.io/2025/12/06/cf-2167g/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dy-dy-dy.github.io/2023/10/25/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/","path":"2023/10/25/Codeforces Round 843 (Div. 2) C. Interesting Sequence/","title":"Codeforces Round 843 (Div. 2) C. Interesting Sequence"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dy-dy-dy.github.io/2025/12/06/cf-2167g/","path":"2025/12/06/cf-2167g/","title":"Codeforces 2167 G Mukhammadali and the Smooth Array"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Codeforces Round 843 (Div. 2) C. Interesting Sequence | Blog</title>
+<title>Codeforces 2167 G Mukhammadali and the Smooth Array | Blog</title>
   
 
 
@@ -194,7 +193,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://dy-dy-dy.github.io/2023/10/25/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/">
+    <link itemprop="mainEntityOfPage" href="https://dy-dy-dy.github.io/2025/12/06/cf-2167g/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/bocchi.png">
@@ -207,12 +206,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Codeforces Round 843 (Div. 2) C. Interesting Sequence | Blog">
+      <meta itemprop="name" content="Codeforces 2167 G Mukhammadali and the Smooth Array | Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Codeforces Round 843 (Div. 2) C. Interesting Sequence
+          Codeforces 2167 G Mukhammadali and the Smooth Array
         </h1>
 
         <div class="post-meta-container">
@@ -222,15 +221,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2023-10-25 00:00:00" itemprop="dateCreated datePublished" datetime="2023-10-25T00:00:00+08:00">2023-10-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-10-01 20:40:42" itemprop="dateModified" datetime="2025-10-01T20:40:42+08:00">2025-10-01</time>
+      <time title="创建时间：2025-12-06 00:00:00 / 修改时间：20:18:23" itemprop="dateCreated datePublished" datetime="2025-12-06T00:00:00+08:00">2025-12-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -249,7 +242,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.1k</span>
+      <span>942</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -266,22 +259,15 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>一道关于位运算的思维题。</p>
-<p>题意是已知n, x</p>
-<p>求一个m</p>
-<p>使$x  \And  (x+1)  \And   (x+2)  \And …  \And m = x$</p>
-<p>如果不存在m，输出-1</p>
-<p>如果存在，则输出最小的m</p>
-<span id="more"></span> 
-<p>当时做的时候有一点思路，但并不完整，之后也被证明是不正确的，在此不提。</p>
-<p>看了好久jingly的代码，终于有点懂了。</p>
-<p>我们按位处理，设f[i]为把n的第i位变为0需要的最小值。</p>
-<p>如果第i位本身就是0，则$f[i] = n$</p>
-<p>如果第i位是1，那么$ f[i] = (n  \And \sim((1 \ll i) - 1)) + (1 \ll i)$</p>
-<p>然后按位处理x，如果第i位是0，那么$ans =\max (ans, f[i])$</p>
-<p>再按位检查一遍x，如果x的第i位是1，但$ans \ge f[i]$，也就是说与到ans时，这一位已经是0了，那么就是无解。</p>
-<p>jiangly的代码直接生按位枚举的，我偷了一下懒，用了bitset</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> endl <span class="string">&#x27;\n&#x27;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> ll;</span><br><span class="line"></span><br><span class="line">ll n, m;</span><br><span class="line">ll f[<span class="number">70</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	bitset &lt;61&gt; <span class="built_in">a</span>(n);</span><br><span class="line">	bitset &lt;61&gt; <span class="built_in">b</span>(m);</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">60</span>; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (a[i] == <span class="number">0</span>)</span><br><span class="line">			f[i] = n;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			f[i] = (n &amp; ~((<span class="number">1ll</span> &lt;&lt; i) - <span class="number">1</span>)) + (<span class="number">1ll</span> &lt;&lt; i);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">60</span>; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (b[i] == <span class="number">0</span>)</span><br><span class="line">			m = <span class="built_in">max</span>(m, f[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">60</span>; ++i) &#123;</span><br><span class="line">		<span class="keyword">if</span> (b[i] == <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (m &gt;= f[i]) &#123;</span><br><span class="line">				cout &lt;&lt; <span class="number">-1</span> &lt;&lt; endl;</span><br><span class="line">				<span class="keyword">return</span> ;</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; m &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	ios::<span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">	cin.<span class="built_in">tie</span>(<span class="number">0</span>); cout.<span class="built_in">tie</span>(<span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> T; cin &gt;&gt; T;</span><br><span class="line">	<span class="keyword">while</span> (T--) &#123;</span><br><span class="line">		<span class="built_in">solve</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <div class="post-body" itemprop="articleBody"><p>有n个正整数a，可以选择其中的一些数把他们修改为任意整数。修改每个数的代价c不同。</p>
+<p>问让这些数不下降的最小修改代价。</p>
+<p>$1 \le n \le 8000,  1 \le a_i,c_i \le 10^9$.</p>
+<span id="more"></span>
+<p>做法为正难则反：正着求最小修改代价有点难，反过来求最大不修改代价比较好求，因为不修改就是让这些数保持不下降，是一个经典的DP入门场景。最终答案就是总的修改代价减去最大不修改代价。</p>
+<p>和经典的最长不下降子序列很像，所以就省略具体的DP设计了。<br>$O(n^2)$做一下就好。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span>, <span class="title">c</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    ll s = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; c[i];</span><br><span class="line">        dp[i] = c[i];</span><br><span class="line">        s += c[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll maxx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; i; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[j] &lt;= a[i]) &#123;</span><br><span class="line">                dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + c[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maxx = <span class="built_in">max</span>(maxx, dp[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; s - maxx &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启示：先考虑贪心，发现无法贪心则考虑DP，正着无法DP就反着考虑。</p>
+
     </div>
 
     
@@ -290,19 +276,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E6%80%9D%E7%BB%B4/" rel="tag"># 思维</a>
-              <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" rel="tag"># 位运算</a>
+              <a href="/tags/DP/" rel="tag"># DP</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2025/12/06/cf-2167f/" rel="prev" title="Codeforces 2167 F Tree, TREE!!!">
+                  <i class="fa fa-angle-left"></i> Codeforces 2167 F Tree, TREE!!!
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/10/25/cf-1878d-reverse-madness/" rel="next" title="CF 1878D Reverse Madness">
-                  CF 1878D Reverse Madness <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
