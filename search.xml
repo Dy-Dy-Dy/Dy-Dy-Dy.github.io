@@ -28,23 +28,14 @@
       </tags>
   </entry>
   <entry>
-    <title>CF 1878D Reverse Madness</title>
-    <url>/2023/10/25/cf-1878d-reverse-madness/</url>
-    <content><![CDATA[<p>From Codeforces Round 900 (Div. 3)</p>
-<p>做法来源于 jiangly</p>
-<p>题目关键在于如何处理字符串区间反转</p>
-<p>了解到有特殊的数据结构（文艺平衡树）可以解决此类问题，但此题显然不需要用到如此繁琐的代码。</p>
-<span id="more"></span> 
-<p>发现题目中反转的区间为$ [ min(x, l[i]+r[i] -x), \max(x, l[i]+r[i] -x)]$，且$l[i] \le x \le r[i]$，所以区间最大为$[l[i], r[i]]$，对此，对于每一个i，我们可以枚举可能的x，利用异或的性质进行反转。</p>
-<p>因为$0 \oplus 1=1$，一开始我们设所有位置都为0，让x出现的位置为1，再设一个变量存异或和，就可以表示当前位置是否要反转。</p>
-<p>可以利用<strong>异或的性质</strong>处理<strong>反转区间已固定</strong>的问题。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n, k;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; k;</span><br><span class="line">	string s;</span><br><span class="line">	cin &gt;&gt; s;</span><br><span class="line">	<span class="function">vector <span class="title">l</span><span class="params">(k, <span class="number">0</span>)</span>, <span class="title">r</span><span class="params">(k, <span class="number">0</span>)</span></span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; l[i];</span><br><span class="line">		l[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; r[i];</span><br><span class="line">		r[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> q;</span><br><span class="line">	cin &gt;&gt; q;</span><br><span class="line">	<span class="function">vector <span class="title">f</span><span class="params">(n, <span class="number">0</span>)</span></span>;</span><br><span class="line">	<span class="keyword">while</span> (q--) &#123;</span><br><span class="line">		<span class="type">int</span> x; </span><br><span class="line">		cin &gt;&gt; x;</span><br><span class="line">		x--;</span><br><span class="line">		f[x] ^= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = l[i]; j &lt;= l[i] + r[i] - j; ++j) &#123;</span><br><span class="line">			now ^= f[j] ^ f[l[i] + r[i] - j];</span><br><span class="line">			<span class="keyword">if</span> (now) &#123;</span><br><span class="line">				<span class="built_in">swap</span>(s[j], s[l[i] + r[i] - j]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; s &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin.<span class="built_in">tie</span>(<span class="number">0</span>) -&gt; <span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> _; cin &gt;&gt; _;</span><br><span class="line">	<span class="keyword">while</span> (_--) <span class="built_in">solve</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>程序设计Tricks集锦</title>
+    <url>/2026/06/06/Tricks/</url>
+    <content><![CDATA[<p>对于任意非负整数$A$和$B$，有</p>
+<p>$<br>\mathrm{popcount}(A \oplus B) \equiv \mathrm{popcount}(A) + \mathrm{popcount}(B) \quad (\mathrm{mod} 2)<br>$</p>
+<span id="more"></span> ]]></content>
       <categories>
-        <category>题解</category>
+        <category>解题技巧</category>
       </categories>
-      <tags>
-        <tag>字符串</tag>
-      </tags>
   </entry>
   <entry>
     <title>Codeforces 2157 D Billion Players Game</title>
@@ -75,6 +66,70 @@
       </tags>
   </entry>
   <entry>
+    <title>常见函数有单调性场景</title>
+    <url>/2026/06/04/%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0%E5%8D%95%E8%B0%83%E6%80%A7%E5%9C%BA%E6%99%AF/</url>
+    <content><![CDATA[<p>常见的单峰信号有：</p>
+<ol>
+<li>边际收益递减<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">多选一个东西的好处越来越小</span><br></pre></td></tr></table></figure></li>
+<li>资源互斥<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">选择 A 类越多，B 类空间越少</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<span id="more"></span> 
+<ol>
+<li>前缀/后缀分界点<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">前 k 个做一类，后面做另一类</span><br></pre></td></tr></table></figure></li>
+<li>答案由两个单调取min/max<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f(k) = min(递增函数, 递减函数)</span><br><span class="line">f(k) = max(递减函数, 递增函数)</span><br></pre></td></tr></table></figure></li>
+<li>越早越好/越晚越好的交换论证<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果能证明固定数量下，某种操作应该尽量靠前或尽量靠后，那通常说明原问题可以压成一个分界点。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>另外一种证明方式：<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">定义 f(k)。</span><br><span class="line"></span><br><span class="line">只比较 f(k) 和 f(k+1)。</span><br><span class="line">从 k 到 k+1，只改变了第 k+1 个关键元素的状态。</span><br><span class="line">分析这个改变带来的收益和损失。</span><br><span class="line"></span><br><span class="line">如果在 k+1 到 k+2 时仍然能变好，</span><br><span class="line">说明在 k 到 k+1 时也一定能变好。</span><br><span class="line"></span><br><span class="line">因此：</span><br><span class="line">f(k+1) &lt; f(k+2) =&gt; f(k) &lt; f(k+1)</span><br><span class="line"></span><br><span class="line">所以一旦 f(k) &gt;= f(k+1)，后面就不会再上升。</span><br><span class="line">于是可以二分第一个 f(k) &gt;= f(k+1)。</span><br><span class="line">或者直接上三分。</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>解题技巧</category>
+      </categories>
+      <tags>
+        <tag>三分</tag>
+        <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CF 1878D Reverse Madness</title>
+    <url>/2023/10/25/cf-1878d-reverse-madness/</url>
+    <content><![CDATA[<p>From Codeforces Round 900 (Div. 3)</p>
+<p>做法来源于 jiangly</p>
+<p>题目关键在于如何处理字符串区间反转</p>
+<p>了解到有特殊的数据结构（文艺平衡树）可以解决此类问题，但此题显然不需要用到如此繁琐的代码。</p>
+<span id="more"></span> 
+<p>发现题目中反转的区间为$ [ min(x, l[i]+r[i] -x), \max(x, l[i]+r[i] -x)]$，且$l[i] \le x \le r[i]$，所以区间最大为$[l[i], r[i]]$，对此，对于每一个i，我们可以枚举可能的x，利用异或的性质进行反转。</p>
+<p>因为$0 \oplus 1=1$，一开始我们设所有位置都为0，让x出现的位置为1，再设一个变量存异或和，就可以表示当前位置是否要反转。</p>
+<p>可以利用<strong>异或的性质</strong>处理<strong>反转区间已固定</strong>的问题。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="type">int</span> n, k;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; k;</span><br><span class="line">	string s;</span><br><span class="line">	cin &gt;&gt; s;</span><br><span class="line">	<span class="function">vector <span class="title">l</span><span class="params">(k, <span class="number">0</span>)</span>, <span class="title">r</span><span class="params">(k, <span class="number">0</span>)</span></span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; l[i];</span><br><span class="line">		l[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		cin &gt;&gt; r[i];</span><br><span class="line">		r[i]--;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> q;</span><br><span class="line">	cin &gt;&gt; q;</span><br><span class="line">	<span class="function">vector <span class="title">f</span><span class="params">(n, <span class="number">0</span>)</span></span>;</span><br><span class="line">	<span class="keyword">while</span> (q--) &#123;</span><br><span class="line">		<span class="type">int</span> x; </span><br><span class="line">		cin &gt;&gt; x;</span><br><span class="line">		x--;</span><br><span class="line">		f[x] ^= <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; k; ++i) &#123;</span><br><span class="line">		<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = l[i]; j &lt;= l[i] + r[i] - j; ++j) &#123;</span><br><span class="line">			now ^= f[j] ^ f[l[i] + r[i] - j];</span><br><span class="line">			<span class="keyword">if</span> (now) &#123;</span><br><span class="line">				<span class="built_in">swap</span>(s[j], s[l[i] + r[i] - j]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; s &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	cin.<span class="built_in">tie</span>(<span class="number">0</span>) -&gt; <span class="built_in">sync_with_stdio</span>(<span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> _; cin &gt;&gt; _;</span><br><span class="line">	<span class="keyword">while</span> (_--) <span class="built_in">solve</span>();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>字符串</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Codeforces 2167 G Mukhammadali and the Smooth Array</title>
+    <url>/2025/12/06/cf-2167g/</url>
+    <content><![CDATA[<p>有n个正整数a，可以选择其中的一些数把他们修改为任意整数。修改每个数的代价c不同。</p>
+<p>问让这些数不下降的最小修改代价。</p>
+<p>$1 \le n \le 8000,  1 \le a_i,c_i \le 10^9$.</p>
+<span id="more"></span>
+<p>做法为正难则反：正着求最小修改代价有点难，反过来求最大不修改代价比较好求，因为不修改就是让这些数保持不下降，是一个经典的DP入门场景。最终答案就是总的修改代价减去最大不修改代价。</p>
+<p>和经典的最长不下降子序列很像，所以就省略具体的DP设计了。<br>$O(n^2)$做一下就好。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span>, <span class="title">c</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    ll s = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; c[i];</span><br><span class="line">        dp[i] = c[i];</span><br><span class="line">        s += c[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll maxx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; i; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[j] &lt;= a[i]) &#123;</span><br><span class="line">                dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + c[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maxx = <span class="built_in">max</span>(maxx, dp[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; s - maxx &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启示：先考虑贪心，发现无法贪心则考虑DP，正着无法DP就反着考虑。</p>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>DP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Codeforces 2167 F Tree, TREE!!!</title>
     <url>/2025/12/06/cf-2167f/</url>
     <content><![CDATA[<p>给一棵n个点的树，再给一个限制k.</p>
@@ -102,51 +157,6 @@
       <tags>
         <tag>思维</tag>
         <tag>换根</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Codeforces 2167 G Mukhammadali and the Smooth Array</title>
-    <url>/2025/12/06/cf-2167g/</url>
-    <content><![CDATA[<p>有n个正整数a，可以选择其中的一些数把他们修改为任意整数。修改每个数的代价c不同。</p>
-<p>问让这些数不下降的最小修改代价。</p>
-<p>$1 \le n \le 8000,  1 \le a_i,c_i \le 10^9$.</p>
-<span id="more"></span>
-<p>做法为正难则反：正着求最小修改代价有点难，反过来求最大不修改代价比较好求，因为不修改就是让这些数保持不下降，是一个经典的DP入门场景。最终答案就是总的修改代价减去最大不修改代价。</p>
-<p>和经典的最长不下降子序列很像，所以就省略具体的DP设计了。<br>$O(n^2)$做一下就好。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span>, <span class="title">c</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    ll s = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; c[i];</span><br><span class="line">        dp[i] = c[i];</span><br><span class="line">        s += c[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll maxx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; i; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[j] &lt;= a[i]) &#123;</span><br><span class="line">                dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + c[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maxx = <span class="built_in">max</span>(maxx, dp[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; s - maxx &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>启示：先考虑贪心，发现无法贪心则考虑DP，正着无法DP就反着考虑。</p>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>DP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常见函数有单调性场景</title>
-    <url>/2026/06/04/%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0%E5%8D%95%E8%B0%83%E6%80%A7%E5%9C%BA%E6%99%AF/</url>
-    <content><![CDATA[<p>常见的单峰信号有：</p>
-<ol>
-<li>边际收益递减<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">多选一个东西的好处越来越小</span><br></pre></td></tr></table></figure></li>
-<li>资源互斥<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">选择 A 类越多，B 类空间越少</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<span id="more"></span> 
-<ol>
-<li>前缀/后缀分界点<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">前 k 个做一类，后面做另一类</span><br></pre></td></tr></table></figure></li>
-<li>答案由两个单调取min/max<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f(k) = min(递增函数, 递减函数)</span><br><span class="line">f(k) = max(递减函数, 递增函数)</span><br></pre></td></tr></table></figure></li>
-<li>越早越好/越晚越好的交换论证<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果能证明固定数量下，某种操作应该尽量靠前或尽量靠后，那通常说明原问题可以压成一个分界点。</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>另外一种证明方式：<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">定义 f(k)。</span><br><span class="line"></span><br><span class="line">只比较 f(k) 和 f(k+1)。</span><br><span class="line">从 k 到 k+1，只改变了第 k+1 个关键元素的状态。</span><br><span class="line">分析这个改变带来的收益和损失。</span><br><span class="line"></span><br><span class="line">如果在 k+1 到 k+2 时仍然能变好，</span><br><span class="line">说明在 k 到 k+1 时也一定能变好。</span><br><span class="line"></span><br><span class="line">因此：</span><br><span class="line">f(k+1) &lt; f(k+2) =&gt; f(k) &lt; f(k+1)</span><br><span class="line"></span><br><span class="line">所以一旦 f(k) &gt;= f(k+1)，后面就不会再上升。</span><br><span class="line">于是可以二分第一个 f(k) &gt;= f(k+1)。</span><br><span class="line">或者直接上三分。</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>解题技巧</category>
-      </categories>
-      <tags>
-        <tag>三分</tag>
-        <tag>二分</tag>
       </tags>
   </entry>
 </search>
