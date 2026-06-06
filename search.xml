@@ -38,60 +38,6 @@
       </categories>
   </entry>
   <entry>
-    <title>Codeforces 2157 D Billion Players Game</title>
-    <url>/2025/12/07/cf-2157d/</url>
-    <content><![CDATA[<p>给定整数区间$[l, r]$和整数数组$a$</p>
-<p>对于每个数，需要从下面三种操作中选择一种：</p>
-<ul>
-<li>放弃该数，贡献为0</li>
-<li>选择$p \le a_i$. 若最终该条件成立，贡献为$|p - a_i|$, 否则为$-|p - a_i|$.</li>
-<li>选择$p \ge a_i$. 若最终该条件成立，贡献为$|p - a_i|$, 否则为$-|p - a_i|$.</li>
-</ul>
-<p>对手会选择一个$p \in [l, r]$使你的收益最小化。</p>
-<p>对于所有的操作选择方案，最大化收益。</p>
-<p>$1 \le l \le r \le 10^9,   1 \le |a| \le 2 \cdot 10^5,  1 \le a_i \le 10^9$.</p>
-<span id="more"></span>
-<p>关键在于对题目这个操作的转化，发现最终的贡献是一个关于p的一次函数，所以一定是单调的，极值一定在两个断点处。</p>
-<p>$\mathrm{ans} = \sum{p - a_i} = |a|p - \sum{a_i}$, 其中$|a|$和$\sum{a_i}$是固定的常数，贡献只与$p$有关。</p>
-<p>所以按顺序枚举所有情况，从$p \le a_i$到放弃再到$p \ge a_i$，线性求一下贡献即可。</p>
-<p>时间复杂度$O(n)$.</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    ll l, r;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; l &gt;&gt; r;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(a.<span class="built_in">begin</span>() + <span class="number">1</span>, a.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">    ll ansl = <span class="number">0</span>, ansr = <span class="number">0</span>;</span><br><span class="line">    vector&lt;ll&gt; b;</span><br><span class="line">    b.<span class="built_in">reserve</span>(n + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt; l) &#123;</span><br><span class="line">            ansl += l - a[i];</span><br><span class="line">            ansr += r - a[i];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a[i] &gt; r) &#123;</span><br><span class="line">            ansl += a[i] - l;</span><br><span class="line">            ansr += a[i] - r;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ansl += a[i] - l;</span><br><span class="line">            ansr += a[i] - r;</span><br><span class="line">            b.<span class="built_in">push_back</span>(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll ans = <span class="built_in">min</span>(ansl, ansr);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; b.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        ansl -= b[i] - l;</span><br><span class="line">        ansr += r - b[i];</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, <span class="built_in">min</span>(ansl, ansr));</span><br><span class="line">        ansl -= b[i] - l;</span><br><span class="line">        ansr += r - b[i];</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, <span class="built_in">min</span>(ansl, ansr));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>启示：要学会转化，将复杂的条件简单化（例如本题虽然贡献有加或者减，但直接就是$p - a_i$, 这样完美概括了加或者减的情况，就可以进一步观察性质）。</p>
-]]></content>
-      <categories>
-        <category>简易题解</category>
-      </categories>
-      <tags>
-        <tag>思维</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常见函数有单调性场景</title>
-    <url>/2026/06/04/%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0%E5%8D%95%E8%B0%83%E6%80%A7%E5%9C%BA%E6%99%AF/</url>
-    <content><![CDATA[<p>常见的单峰信号有：</p>
-<ol>
-<li>边际收益递减<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">多选一个东西的好处越来越小</span><br></pre></td></tr></table></figure></li>
-<li>资源互斥<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">选择 A 类越多，B 类空间越少</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<span id="more"></span> 
-<ol>
-<li>前缀/后缀分界点<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">前 k 个做一类，后面做另一类</span><br></pre></td></tr></table></figure></li>
-<li>答案由两个单调取min/max<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f(k) = min(递增函数, 递减函数)</span><br><span class="line">f(k) = max(递减函数, 递增函数)</span><br></pre></td></tr></table></figure></li>
-<li>越早越好/越晚越好的交换论证<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果能证明固定数量下，某种操作应该尽量靠前或尽量靠后，那通常说明原问题可以压成一个分界点。</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>另外一种证明方式：<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">定义 f(k)。</span><br><span class="line"></span><br><span class="line">只比较 f(k) 和 f(k+1)。</span><br><span class="line">从 k 到 k+1，只改变了第 k+1 个关键元素的状态。</span><br><span class="line">分析这个改变带来的收益和损失。</span><br><span class="line"></span><br><span class="line">如果在 k+1 到 k+2 时仍然能变好，</span><br><span class="line">说明在 k 到 k+1 时也一定能变好。</span><br><span class="line"></span><br><span class="line">因此：</span><br><span class="line">f(k+1) &lt; f(k+2) =&gt; f(k) &lt; f(k+1)</span><br><span class="line"></span><br><span class="line">所以一旦 f(k) &gt;= f(k+1)，后面就不会再上升。</span><br><span class="line">于是可以二分第一个 f(k) &gt;= f(k+1)。</span><br><span class="line">或者直接上三分。</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>解题技巧</category>
-      </categories>
-      <tags>
-        <tag>三分</tag>
-        <tag>二分</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CF 1878D Reverse Madness</title>
     <url>/2023/10/25/cf-1878d-reverse-madness/</url>
     <content><![CDATA[<p>From Codeforces Round 900 (Div. 3)</p>
@@ -108,25 +54,6 @@
       </categories>
       <tags>
         <tag>字符串</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Codeforces 2167 G Mukhammadali and the Smooth Array</title>
-    <url>/2025/12/06/cf-2167g/</url>
-    <content><![CDATA[<p>有n个正整数a，可以选择其中的一些数把他们修改为任意整数。修改每个数的代价c不同。</p>
-<p>问让这些数不下降的最小修改代价。</p>
-<p>$1 \le n \le 8000,  1 \le a_i,c_i \le 10^9$.</p>
-<span id="more"></span>
-<p>做法为正难则反：正着求最小修改代价有点难，反过来求最大不修改代价比较好求，因为不修改就是让这些数保持不下降，是一个经典的DP入门场景。最终答案就是总的修改代价减去最大不修改代价。</p>
-<p>和经典的最长不下降子序列很像，所以就省略具体的DP设计了。<br>$O(n^2)$做一下就好。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span>, <span class="title">c</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    ll s = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; c[i];</span><br><span class="line">        dp[i] = c[i];</span><br><span class="line">        s += c[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll maxx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; i; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[j] &lt;= a[i]) &#123;</span><br><span class="line">                dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + c[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maxx = <span class="built_in">max</span>(maxx, dp[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; s - maxx &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>启示：先考虑贪心，发现无法贪心则考虑DP，正着无法DP就反着考虑。</p>
-]]></content>
-      <categories>
-        <category>题解</category>
-      </categories>
-      <tags>
-        <tag>DP</tag>
       </tags>
   </entry>
   <entry>
@@ -157,6 +84,79 @@
       <tags>
         <tag>思维</tag>
         <tag>换根</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Codeforces 2157 D Billion Players Game</title>
+    <url>/2025/12/07/cf-2157d/</url>
+    <content><![CDATA[<p>给定整数区间$[l, r]$和整数数组$a$</p>
+<p>对于每个数，需要从下面三种操作中选择一种：</p>
+<ul>
+<li>放弃该数，贡献为0</li>
+<li>选择$p \le a_i$. 若最终该条件成立，贡献为$|p - a_i|$, 否则为$-|p - a_i|$.</li>
+<li>选择$p \ge a_i$. 若最终该条件成立，贡献为$|p - a_i|$, 否则为$-|p - a_i|$.</li>
+</ul>
+<p>对手会选择一个$p \in [l, r]$使你的收益最小化。</p>
+<p>对于所有的操作选择方案，最大化收益。</p>
+<p>$1 \le l \le r \le 10^9,   1 \le |a| \le 2 \cdot 10^5,  1 \le a_i \le 10^9$.</p>
+<span id="more"></span>
+<p>关键在于对题目这个操作的转化，发现最终的贡献是一个关于p的一次函数，所以一定是单调的，极值一定在两个断点处。</p>
+<p>$\mathrm{ans} = \sum{p - a_i} = |a|p - \sum{a_i}$, 其中$|a|$和$\sum{a_i}$是固定的常数，贡献只与$p$有关。</p>
+<p>所以按顺序枚举所有情况，从$p \le a_i$到放弃再到$p \ge a_i$，线性求一下贡献即可。</p>
+<p>时间复杂度$O(n)$.</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    ll l, r;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; l &gt;&gt; r;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(a.<span class="built_in">begin</span>() + <span class="number">1</span>, a.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">    ll ansl = <span class="number">0</span>, ansr = <span class="number">0</span>;</span><br><span class="line">    vector&lt;ll&gt; b;</span><br><span class="line">    b.<span class="built_in">reserve</span>(n + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt; l) &#123;</span><br><span class="line">            ansl += l - a[i];</span><br><span class="line">            ansr += r - a[i];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a[i] &gt; r) &#123;</span><br><span class="line">            ansl += a[i] - l;</span><br><span class="line">            ansr += a[i] - r;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ansl += a[i] - l;</span><br><span class="line">            ansr += a[i] - r;</span><br><span class="line">            b.<span class="built_in">push_back</span>(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll ans = <span class="built_in">min</span>(ansl, ansr);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; b.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        ansl -= b[i] - l;</span><br><span class="line">        ansr += r - b[i];</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, <span class="built_in">min</span>(ansl, ansr));</span><br><span class="line">        ansl -= b[i] - l;</span><br><span class="line">        ansr += r - b[i];</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, <span class="built_in">min</span>(ansl, ansr));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启示：要学会转化，将复杂的条件简单化（例如本题虽然贡献有加或者减，但直接就是$p - a_i$, 这样完美概括了加或者减的情况，就可以进一步观察性质）。</p>
+]]></content>
+      <categories>
+        <category>简易题解</category>
+      </categories>
+      <tags>
+        <tag>思维</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Codeforces 2167 G Mukhammadali and the Smooth Array</title>
+    <url>/2025/12/06/cf-2167g/</url>
+    <content><![CDATA[<p>有n个正整数a，可以选择其中的一些数把他们修改为任意整数。修改每个数的代价c不同。</p>
+<p>问让这些数不下降的最小修改代价。</p>
+<p>$1 \le n \le 8000,  1 \le a_i,c_i \le 10^9$.</p>
+<span id="more"></span>
+<p>做法为正难则反：正着求最小修改代价有点难，反过来求最大不修改代价比较好求，因为不修改就是让这些数保持不下降，是一个经典的DP入门场景。最终答案就是总的修改代价减去最大不修改代价。</p>
+<p>和经典的最长不下降子序列很像，所以就省略具体的DP设计了。<br>$O(n^2)$做一下就好。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span>, <span class="title">c</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    ll s = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; c[i];</span><br><span class="line">        dp[i] = c[i];</span><br><span class="line">        s += c[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll maxx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt; i; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (a[j] &lt;= a[i]) &#123;</span><br><span class="line">                dp[i] = <span class="built_in">max</span>(dp[i], dp[j] + c[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        maxx = <span class="built_in">max</span>(maxx, dp[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; s - maxx &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启示：先考虑贪心，发现无法贪心则考虑DP，正着无法DP就反着考虑。</p>
+]]></content>
+      <categories>
+        <category>题解</category>
+      </categories>
+      <tags>
+        <tag>DP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见函数有单调性场景</title>
+    <url>/2026/06/04/%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0%E5%8D%95%E8%B0%83%E6%80%A7%E5%9C%BA%E6%99%AF/</url>
+    <content><![CDATA[<p>常见的单峰信号有：</p>
+<ol>
+<li>边际收益递减<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">多选一个东西的好处越来越小</span><br></pre></td></tr></table></figure></li>
+<li>资源互斥<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">选择 A 类越多，B 类空间越少</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<span id="more"></span> 
+<ol>
+<li>前缀/后缀分界点<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">前 k 个做一类，后面做另一类</span><br></pre></td></tr></table></figure></li>
+<li>答案由两个单调取min/max<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f(k) = min(递增函数, 递减函数)</span><br><span class="line">f(k) = max(递减函数, 递增函数)</span><br></pre></td></tr></table></figure></li>
+<li>越早越好/越晚越好的交换论证<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果能证明固定数量下，某种操作应该尽量靠前或尽量靠后，那通常说明原问题可以压成一个分界点。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>另外一种证明方式：<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">定义 f(k)。</span><br><span class="line"></span><br><span class="line">只比较 f(k) 和 f(k+1)。</span><br><span class="line">从 k 到 k+1，只改变了第 k+1 个关键元素的状态。</span><br><span class="line">分析这个改变带来的收益和损失。</span><br><span class="line"></span><br><span class="line">如果在 k+1 到 k+2 时仍然能变好，</span><br><span class="line">说明在 k 到 k+1 时也一定能变好。</span><br><span class="line"></span><br><span class="line">因此：</span><br><span class="line">f(k+1) &lt; f(k+2) =&gt; f(k) &lt; f(k+1)</span><br><span class="line"></span><br><span class="line">所以一旦 f(k) &gt;= f(k+1)，后面就不会再上升。</span><br><span class="line">于是可以二分第一个 f(k) &gt;= f(k+1)。</span><br><span class="line">或者直接上三分。</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>解题技巧</category>
+      </categories>
+      <tags>
+        <tag>三分</tag>
+        <tag>二分</tag>
       </tags>
   </entry>
 </search>
