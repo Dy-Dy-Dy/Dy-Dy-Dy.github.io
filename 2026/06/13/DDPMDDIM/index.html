@@ -21,23 +21,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"dy-dy-dy.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.18.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Igloo">
-<meta property="og:url" content="https://dy-dy-dy.github.io/tags/%E4%BA%8C%E5%88%86/index.html">
+    <meta name="description" content="扩散模型，我们的目标是生成和已有数据分布近似，又有所不同的新数据。更广义的说，是学习数据的分布。 通过对数据马尔科夫加噪，最终的结果是近似正态分布噪声。推理过程则是反过来，从正态分布中采样，然后一步一步去噪。 通过数学推导，发现要从$X_t$推理出$X_{t-1}$, 我们需要知道$X_0$, $X_0$实际上和噪声有关，所以能推理出噪声，就可以推理出$X_{t-1}$。所以我们要用一个训练神经网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对DDPM和DDIM的简单理解">
+<meta property="og:url" content="https://dy-dy-dy.github.io/2026/06/13/DDPMDDIM/index.html">
 <meta property="og:site_name" content="Igloo">
+<meta property="og:description" content="扩散模型，我们的目标是生成和已有数据分布近似，又有所不同的新数据。更广义的说，是学习数据的分布。 通过对数据马尔科夫加噪，最终的结果是近似正态分布噪声。推理过程则是反过来，从正态分布中采样，然后一步一步去噪。 通过数学推导，发现要从$X_t$推理出$X_{t-1}$, 我们需要知道$X_0$, $X_0$实际上和噪声有关，所以能推理出噪声，就可以推理出$X_{t-1}$。所以我们要用一个训练神经网">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-13T11:38:14.052Z">
 <meta property="article:author" content="Dylan_D">
+<meta property="article:tag" content="扩散模型">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://dy-dy-dy.github.io/tags/%E4%BA%8C%E5%88%86/">
+<link rel="canonical" href="https://dy-dy-dy.github.io/2026/06/13/DDPMDDIM/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"tags/二分/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dy-dy-dy.github.io/2026/06/13/DDPMDDIM/","path":"2026/06/13/DDPMDDIM/","title":"对DDPM和DDIM的简单理解"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>标签: 二分 | Igloo</title>
+<title>对DDPM和DDIM的简单理解 | Igloo</title>
   
 
 
@@ -177,50 +182,118 @@
 
     </div>
 
-    <div class="main-inner tag posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
+
+
+<div class="post-block">
   
   
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <h1 class="collection-header">二分
-          <small>标签</small>
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dy-dy-dy.github.io/2026/06/13/DDPMDDIM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/oguricap.png">
+      <meta itemprop="name" content="Dylan_D">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Igloo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="对DDPM和DDIM的简单理解 | Igloo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          对DDPM和DDIM的简单理解
         </h1>
-      </div>
 
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2026</span>
+
+      <time title="创建时间：2026-06-13 00:00:00 / 修改时间：19:38:14" itemprop="dateCreated datePublished" datetime="2026-06-13T00:00:00+08:00">2026-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%A7%91%E7%A0%94/" itemprop="url" rel="index"><span itemprop="name">科研</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>317</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>扩散模型，我们的目标是生成和已有数据分布近似，又有所不同的新数据。<br>更广义的说，是学习数据的分布。</p>
+<p>通过对数据马尔科夫加噪，最终的结果是近似正态分布噪声。<br>推理过程则是反过来，从正态分布中采样，然后一步一步去噪。</p>
+<p>通过数学推导，发现要从$X_t$推理出$X_{t-1}$, 我们需要知道$X_0$, $X_0$实际上和噪声有关，所以能推理出噪声，就可以推理出$X_{t-1}$。所以我们要用一个训练神经网络来预测噪声。这就是训练过程。</p>
+<p>DDPM的推理是马尔科夫式的逐步反向去噪，而DDIM创新了采样方式，它保持了和DDPM一样的单步加噪边缘分布$q(X_t|X_0)$, 所以噪声预测模型不需要变，它设计了非马尔科夫式的反向采样路径，实现了跳步采样。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2026-06-04T00:00:00+08:00"
-              content="2026-06-04">
-          06-04
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-        <a class="post-title-link" href="/2026/06/04/%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0%E5%8D%95%E8%B0%83%E6%80%A7%E5%9C%BA%E6%99%AF/" itemprop="url">
-          <span itemprop="name">常见函数有单调性场景</span>
-        </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B/" rel="tag"># 扩散模型</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/06/06/Tricks/" rel="prev" title="程序设计Tricks集锦">
+                  <i class="fa fa-angle-left"></i> 程序设计Tricks集锦
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
+</div>
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
+
 
 </div>
   </main>

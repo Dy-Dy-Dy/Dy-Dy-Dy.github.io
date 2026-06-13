@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>对DDPM和DDIM的简单理解</title>
+    <url>/2026/06/13/DDPMDDIM/</url>
+    <content><![CDATA[<p>扩散模型，我们的目标是生成和已有数据分布近似，又有所不同的新数据。<br>更广义的说，是学习数据的分布。</p>
+<p>通过对数据马尔科夫加噪，最终的结果是近似正态分布噪声。<br>推理过程则是反过来，从正态分布中采样，然后一步一步去噪。</p>
+<p>通过数学推导，发现要从$X_t$推理出$X_{t-1}$, 我们需要知道$X_0$, $X_0$实际上和噪声有关，所以能推理出噪声，就可以推理出$X_{t-1}$。所以我们要用一个训练神经网络来预测噪声。这就是训练过程。</p>
+<p>DDPM的推理是马尔科夫式的逐步反向去噪，而DDIM创新了采样方式，它保持了和DDPM一样的单步加噪边缘分布$q(X_t|X_0)$, 所以噪声预测模型不需要变，它设计了非马尔科夫式的反向采样路径，实现了跳步采样。</p>
+]]></content>
+      <categories>
+        <category>科研</category>
+      </categories>
+      <tags>
+        <tag>扩散模型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Codeforces Round 843 (Div. 2) C. Interesting Sequence</title>
     <url>/2023/10/25/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/</url>
     <content><![CDATA[<p>一道关于位运算的思维题。</p>
@@ -57,6 +72,34 @@
       </tags>
   </entry>
   <entry>
+    <title>Codeforces 2157 D Billion Players Game</title>
+    <url>/2025/12/07/cf-2157d/</url>
+    <content><![CDATA[<p>给定整数区间$[l, r]$和整数数组$a$</p>
+<p>对于每个数，需要从下面三种操作中选择一种：</p>
+<ul>
+<li>放弃该数，贡献为0</li>
+<li>选择$p \le a_i$. 若最终该条件成立，贡献为$|p - a_i|$, 否则为$-|p - a_i|$.</li>
+<li>选择$p \ge a_i$. 若最终该条件成立，贡献为$|p - a_i|$, 否则为$-|p - a_i|$.</li>
+</ul>
+<p>对手会选择一个$p \in [l, r]$使你的收益最小化。</p>
+<p>对于所有的操作选择方案，最大化收益。</p>
+<p>$1 \le l \le r \le 10^9,   1 \le |a| \le 2 \cdot 10^5,  1 \le a_i \le 10^9$.</p>
+<span id="more"></span>
+<p>关键在于对题目这个操作的转化，发现最终的贡献是一个关于p的一次函数，所以一定是单调的，极值一定在两个断点处。</p>
+<p>$\mathrm{ans} = \sum{p - a_i} = |a|p - \sum{a_i}$, 其中$|a|$和$\sum{a_i}$是固定的常数，贡献只与$p$有关。</p>
+<p>所以按顺序枚举所有情况，从$p \le a_i$到放弃再到$p \ge a_i$，线性求一下贡献即可。</p>
+<p>时间复杂度$O(n)$.</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    ll l, r;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; l &gt;&gt; r;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(a.<span class="built_in">begin</span>() + <span class="number">1</span>, a.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">    ll ansl = <span class="number">0</span>, ansr = <span class="number">0</span>;</span><br><span class="line">    vector&lt;ll&gt; b;</span><br><span class="line">    b.<span class="built_in">reserve</span>(n + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt; l) &#123;</span><br><span class="line">            ansl += l - a[i];</span><br><span class="line">            ansr += r - a[i];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a[i] &gt; r) &#123;</span><br><span class="line">            ansl += a[i] - l;</span><br><span class="line">            ansr += a[i] - r;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ansl += a[i] - l;</span><br><span class="line">            ansr += a[i] - r;</span><br><span class="line">            b.<span class="built_in">push_back</span>(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll ans = <span class="built_in">min</span>(ansl, ansr);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; b.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        ansl -= b[i] - l;</span><br><span class="line">        ansr += r - b[i];</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, <span class="built_in">min</span>(ansl, ansr));</span><br><span class="line">        ansl -= b[i] - l;</span><br><span class="line">        ansr += r - b[i];</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, <span class="built_in">min</span>(ansl, ansr));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启示：要学会转化，将复杂的条件简单化（例如本题虽然贡献有加或者减，但直接就是$p - a_i$, 这样完美概括了加或者减的情况，就可以进一步观察性质）。</p>
+]]></content>
+      <categories>
+        <category>简易题解</category>
+      </categories>
+      <tags>
+        <tag>思维</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Codeforces 2167 F Tree, TREE!!!</title>
     <url>/2025/12/06/cf-2167f/</url>
     <content><![CDATA[<p>给一棵n个点的树，再给一个限制k.</p>
@@ -84,34 +127,6 @@
       <tags>
         <tag>思维</tag>
         <tag>换根</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Codeforces 2157 D Billion Players Game</title>
-    <url>/2025/12/07/cf-2157d/</url>
-    <content><![CDATA[<p>给定整数区间$[l, r]$和整数数组$a$</p>
-<p>对于每个数，需要从下面三种操作中选择一种：</p>
-<ul>
-<li>放弃该数，贡献为0</li>
-<li>选择$p \le a_i$. 若最终该条件成立，贡献为$|p - a_i|$, 否则为$-|p - a_i|$.</li>
-<li>选择$p \ge a_i$. 若最终该条件成立，贡献为$|p - a_i|$, 否则为$-|p - a_i|$.</li>
-</ul>
-<p>对手会选择一个$p \in [l, r]$使你的收益最小化。</p>
-<p>对于所有的操作选择方案，最大化收益。</p>
-<p>$1 \le l \le r \le 10^9,   1 \le |a| \le 2 \cdot 10^5,  1 \le a_i \le 10^9$.</p>
-<span id="more"></span>
-<p>关键在于对题目这个操作的转化，发现最终的贡献是一个关于p的一次函数，所以一定是单调的，极值一定在两个断点处。</p>
-<p>$\mathrm{ans} = \sum{p - a_i} = |a|p - \sum{a_i}$, 其中$|a|$和$\sum{a_i}$是固定的常数，贡献只与$p$有关。</p>
-<p>所以按顺序枚举所有情况，从$p \le a_i$到放弃再到$p \ge a_i$，线性求一下贡献即可。</p>
-<p>时间复杂度$O(n)$.</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> ll = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    ll l, r;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; l &gt;&gt; r;</span><br><span class="line">    <span class="function">vector&lt;ll&gt; <span class="title">a</span><span class="params">(n + <span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">sort</span>(a.<span class="built_in">begin</span>() + <span class="number">1</span>, a.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">    ll ansl = <span class="number">0</span>, ansr = <span class="number">0</span>;</span><br><span class="line">    vector&lt;ll&gt; b;</span><br><span class="line">    b.<span class="built_in">reserve</span>(n + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt; l) &#123;</span><br><span class="line">            ansl += l - a[i];</span><br><span class="line">            ansr += r - a[i];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a[i] &gt; r) &#123;</span><br><span class="line">            ansl += a[i] - l;</span><br><span class="line">            ansr += a[i] - r;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            ansl += a[i] - l;</span><br><span class="line">            ansr += a[i] - r;</span><br><span class="line">            b.<span class="built_in">push_back</span>(a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ll ans = <span class="built_in">min</span>(ansl, ansr);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; b.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">        ansl -= b[i] - l;</span><br><span class="line">        ansr += r - b[i];</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, <span class="built_in">min</span>(ansl, ansr));</span><br><span class="line">        ansl -= b[i] - l;</span><br><span class="line">        ansr += r - b[i];</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, <span class="built_in">min</span>(ansl, ansr));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; ans &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin.<span class="built_in">tie</span>(<span class="literal">nullptr</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> _;</span><br><span class="line">    cin &gt;&gt; _;</span><br><span class="line">    <span class="keyword">while</span> (_--) &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>启示：要学会转化，将复杂的条件简单化（例如本题虽然贡献有加或者减，但直接就是$p - a_i$, 这样完美概括了加或者减的情况，就可以进一步观察性质）。</p>
-]]></content>
-      <categories>
-        <category>简易题解</category>
-      </categories>
-      <tags>
-        <tag>思维</tag>
       </tags>
   </entry>
   <entry>
