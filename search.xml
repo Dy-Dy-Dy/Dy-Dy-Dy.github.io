@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>对DDPM和DDIM的简单理解</title>
-    <url>/2026/06/13/DDPMDDIM/</url>
-    <content><![CDATA[<p>扩散模型，我们的目标是生成和已有数据分布近似，又有所不同的新数据。<br>更广义的说，是学习数据的分布。</p>
-<p>通过对数据马尔科夫加噪，最终的结果是近似正态分布噪声。<br>推理过程则是反过来，从正态分布中采样，然后一步一步去噪。</p>
-<p>通过数学推导，发现要从$X_t$推理出$X_{t-1}$, 我们需要知道$X_0$, $X_0$实际上和噪声有关，所以能推理出噪声，就可以推理出$X_{t-1}$。所以我们要用一个训练神经网络来预测噪声。这就是训练过程。</p>
-<p>DDPM的推理是马尔科夫式的逐步反向去噪，而DDIM创新了采样方式，它保持了和DDPM一样的单步加噪边缘分布$q(X_t|X_0)$, 所以噪声预测模型不需要变，它设计了非马尔科夫式的反向采样路径，实现了跳步采样。</p>
-]]></content>
-      <categories>
-        <category>科研</category>
-      </categories>
-      <tags>
-        <tag>扩散模型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Codeforces Round 843 (Div. 2) C. Interesting Sequence</title>
     <url>/2023/10/25/Codeforces%20Round%20843%20(Div.%202)%20C.%20Interesting%20Sequence/</url>
     <content><![CDATA[<p>一道关于位运算的思维题。</p>
@@ -51,6 +36,47 @@
       <categories>
         <category>解题技巧</category>
       </categories>
+  </entry>
+  <entry>
+    <title>对DDPM和DDIM的简单理解</title>
+    <url>/2026/06/13/DDPMDDIM/</url>
+    <content><![CDATA[<p>扩散模型，我们的目标是生成和已有数据分布近似，又有所不同的新数据。<br>更广义的说，是学习数据的分布。</p>
+<p>通过对数据马尔科夫加噪，最终的结果是近似正态分布噪声。<br>推理过程则是反过来，从正态分布中采样，然后一步一步去噪。</p>
+<p>通过数学推导，发现要从$X_t$推理出$X_{t-1}$, 我们需要知道$X_0$, $X_0$实际上和噪声有关，所以能推理出噪声，就可以推理出$X_{t-1}$。所以我们要用一个训练神经网络来预测噪声。这就是训练过程。</p>
+<p>DDPM的推理是马尔科夫式的逐步反向去噪，而DDIM创新了采样方式，它保持了和DDPM一样的单步加噪边缘分布$q(X_t|X_0)$, 所以噪声预测模型不需要变，它设计了非马尔科夫式的反向采样路径，实现了跳步采样。</p>
+]]></content>
+      <categories>
+        <category>科研</category>
+      </categories>
+      <tags>
+        <tag>扩散模型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见函数有单调性场景</title>
+    <url>/2026/06/04/%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0%E5%8D%95%E8%B0%83%E6%80%A7%E5%9C%BA%E6%99%AF/</url>
+    <content><![CDATA[<p>常见的单峰信号有：</p>
+<ol>
+<li>边际收益递减<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">多选一个东西的好处越来越小</span><br></pre></td></tr></table></figure></li>
+<li>资源互斥<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">选择 A 类越多，B 类空间越少</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<span id="more"></span> 
+<ol>
+<li>前缀/后缀分界点<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">前 k 个做一类，后面做另一类</span><br></pre></td></tr></table></figure></li>
+<li>答案由两个单调取min/max<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f(k) = min(递增函数, 递减函数)</span><br><span class="line">f(k) = max(递减函数, 递增函数)</span><br></pre></td></tr></table></figure></li>
+<li>越早越好/越晚越好的交换论证<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果能证明固定数量下，某种操作应该尽量靠前或尽量靠后，那通常说明原问题可以压成一个分界点。</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>另外一种证明方式：<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">定义 f(k)。</span><br><span class="line"></span><br><span class="line">只比较 f(k) 和 f(k+1)。</span><br><span class="line">从 k 到 k+1，只改变了第 k+1 个关键元素的状态。</span><br><span class="line">分析这个改变带来的收益和损失。</span><br><span class="line"></span><br><span class="line">如果在 k+1 到 k+2 时仍然能变好，</span><br><span class="line">说明在 k 到 k+1 时也一定能变好。</span><br><span class="line"></span><br><span class="line">因此：</span><br><span class="line">f(k+1) &lt; f(k+2) =&gt; f(k) &lt; f(k+1)</span><br><span class="line"></span><br><span class="line">所以一旦 f(k) &gt;= f(k+1)，后面就不会再上升。</span><br><span class="line">于是可以二分第一个 f(k) &gt;= f(k+1)。</span><br><span class="line">或者直接上三分。</span><br></pre></td></tr></table></figure></p>
+]]></content>
+      <categories>
+        <category>解题技巧</category>
+      </categories>
+      <tags>
+        <tag>三分</tag>
+        <tag>二分</tag>
+      </tags>
   </entry>
   <entry>
     <title>CF 1878D Reverse Madness</title>
@@ -146,32 +172,6 @@
       </categories>
       <tags>
         <tag>DP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常见函数有单调性场景</title>
-    <url>/2026/06/04/%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0%E5%8D%95%E8%B0%83%E6%80%A7%E5%9C%BA%E6%99%AF/</url>
-    <content><![CDATA[<p>常见的单峰信号有：</p>
-<ol>
-<li>边际收益递减<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">多选一个东西的好处越来越小</span><br></pre></td></tr></table></figure></li>
-<li>资源互斥<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">选择 A 类越多，B 类空间越少</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<span id="more"></span> 
-<ol>
-<li>前缀/后缀分界点<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">前 k 个做一类，后面做另一类</span><br></pre></td></tr></table></figure></li>
-<li>答案由两个单调取min/max<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">f(k) = min(递增函数, 递减函数)</span><br><span class="line">f(k) = max(递减函数, 递增函数)</span><br></pre></td></tr></table></figure></li>
-<li>越早越好/越晚越好的交换论证<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">如果能证明固定数量下，某种操作应该尽量靠前或尽量靠后，那通常说明原问题可以压成一个分界点。</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>另外一种证明方式：<br><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">定义 f(k)。</span><br><span class="line"></span><br><span class="line">只比较 f(k) 和 f(k+1)。</span><br><span class="line">从 k 到 k+1，只改变了第 k+1 个关键元素的状态。</span><br><span class="line">分析这个改变带来的收益和损失。</span><br><span class="line"></span><br><span class="line">如果在 k+1 到 k+2 时仍然能变好，</span><br><span class="line">说明在 k 到 k+1 时也一定能变好。</span><br><span class="line"></span><br><span class="line">因此：</span><br><span class="line">f(k+1) &lt; f(k+2) =&gt; f(k) &lt; f(k+1)</span><br><span class="line"></span><br><span class="line">所以一旦 f(k) &gt;= f(k+1)，后面就不会再上升。</span><br><span class="line">于是可以二分第一个 f(k) &gt;= f(k+1)。</span><br><span class="line">或者直接上三分。</span><br></pre></td></tr></table></figure></p>
-]]></content>
-      <categories>
-        <category>解题技巧</category>
-      </categories>
-      <tags>
-        <tag>三分</tag>
-        <tag>二分</tag>
       </tags>
   </entry>
 </search>
